@@ -12,11 +12,9 @@ on:
 jobs:
 
   ci:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -37,21 +35,18 @@ jobs:
         run: |
           python -c "import main"
 
-      # Docker Validation
       - name: Build Docker Image
         run: |
           docker build -t predictive-maintenance-api .
 
   cd:
-
     needs: ci
-
-    runs-on: ubuntu-latest
 
     if: github.ref == 'refs/heads/main'
 
-    steps:
+    runs-on: ubuntu-latest
 
+    steps:
       - name: Trigger Render Deploy
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
